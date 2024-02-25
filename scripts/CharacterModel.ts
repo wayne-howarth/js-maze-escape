@@ -4,6 +4,7 @@ class CharacterModel {
     private _facing: Direction;
     private _listener: ICharacterModelListener;
 
+
     constructor(x: number, y: number) {
         this._positionX = x;
         this._positionY = y;
