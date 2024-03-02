@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Maze Game</title>
+        <script src="out/gameworld.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    </head>
+    <body>
+        <canvas id="GameCanvas" width="800" height="800"></canvas>
+    </body>
+
+    <script type="text/javascript">
+
+        let gameCanvas = $("#GameCanvas")[0];
+
+        var c = gameCanvas.getContext('2d');
+        c.fillStyle = "#f0f0f0";
+        c.fillRect(0, 0, gameCanvas.clientWidth, gameCanvas.clientHeight);
+
+        let gameWorld = new GameWorld(gameCanvas);
+    </script>
+</html>
