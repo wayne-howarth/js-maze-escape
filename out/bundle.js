@@ -57,9 +57,7 @@ var Direction;
     Direction[Direction["West"] = 8] = "West";
 })(Direction || (Direction = {}));
 class GameModel {
-    constructor(width, height, generator) {
-        this._width = width;
-        this._height = height;
+    constructor(generator) {
         this._score = 0;
         this._generator = generator;
         this._maze = generator.generateMaze();
@@ -70,8 +68,8 @@ class GameModel {
     registerListener(listener) {
         var _a;
         this._listener = listener;
-        this._listener.setMazeDimensions(this._width, this._height);
-        this._hero = listener.createHeroCharacter();
+        this._listener.setMazeDimensions(this._maze.width(), this._maze.height());
+        this._hero = new CharacterModel(this._maze.width() / 2, 0);
         (_a = this._hero) === null || _a === void 0 ? void 0 : _a.registerListener(this);
         listener.draw(this._hero);
     }
@@ -113,15 +111,19 @@ class GameModel {
     }
 }
 class GameWorld {
-    constructor(gameCanvas) {
+    constructor(gameCanvas, sprites) {
         this.canvas = gameCanvas;
+        this.sprites = sprites;
     }
     setMazeDimensions(width, height) {
-    }
-    createHeroCharacter() {
-        return null;
+        this.width = width;
+        this.height = height;
+        this.cellWidth = this.canvas.clientWidth / width;
+        this.cellHeight = this.canvas.clientHeight / height;
     }
     draw(character) {
+        let ctx = this.canvas.getContext('2d');
+        ctx.drawImage(this.sprites.getSprite(0), 50, 50);
     }
     turnRight() {
     }
@@ -202,9 +204,34 @@ class Maze {
         return _opposite[edge];
     }
 }
-class MazeGeneratorImpl {
+class MazeGenerator {
+    init(width, height) {
+        this._width = width;
+        this._height = height;
+    }
     generateMaze() {
-        return new Maze(20, 20);
+        let maze = new Maze(this._width, this._height);
+        return maze;
     }
 }
+class Sprites {
+    constructor(filename) {
+        let image = new Image();
+        image.onload = () => {
+            Promise.all([
+                createImageBitmap(image, 0, 0, 20, 27),
+                createImageBitmap(image, 20, 0, 20, 27),
+                createImageBitmap(image, 40, 0, 20, 27)
+            ])
+                .then(sprites => {
+                this._sprites = sprites;
+            });
+        };
+        image.src = filename;
+    }
+    getSprite(index) {
+        return this._sprites[index];
+    }
+}
+Sprites.HERO = 0;
 //# sourceMappingURL=bundle.js.map

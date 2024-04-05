@@ -1,6 +1,5 @@
 interface IGameModelListener {
     setMazeDimensions(width: number, height: number);
-    createHeroCharacter(): CharacterModel;
     draw(character: CharacterModel);
     turnRight();
     turnLeft();

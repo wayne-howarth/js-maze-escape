@@ -1,18 +1,13 @@
 class GameModel implements ICharacterModelListener {
-    private _width: number;
-    private _height: number;
     private _score: number;
     private _generator: IMazeGenerator;
     private _listener: IGameModelListener;
     private _maze: Maze;
     private _hero: CharacterModel;
 
-    constructor(width: number, height: number, generator: IMazeGenerator) {
-        this._width = width;
-        this._height = height;
+    constructor(generator: IMazeGenerator) {
         this._score = 0;
         this._generator = generator;
-
         this._maze = generator.generateMaze();
     }
 
@@ -23,8 +18,8 @@ class GameModel implements ICharacterModelListener {
     registerListener(listener: IGameModelListener) {
         this._listener = listener;
 
-        this._listener.setMazeDimensions(this._width, this._height);
-        this._hero = listener.createHeroCharacter();
+        this._listener.setMazeDimensions(this._maze.width(), this._maze.height());
+        this._hero = new CharacterModel(this._maze.width() / 2, 0);
         this._hero?.registerListener(this);
         listener.draw(this._hero);
     }

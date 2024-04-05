@@ -89,9 +89,3 @@ class Maze {
         return _opposite[edge];
     }
 }
-
-class MazeGeneratorImpl implements IMazeGenerator {
-    generateMaze(): Maze {
-        return new Maze(20, 20);
-    }
-}

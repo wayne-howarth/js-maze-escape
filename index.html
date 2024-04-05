@@ -12,13 +12,16 @@
     </body>
 
     <script type="text/javascript">
-
         let gameCanvas = $("#GameCanvas")[0];
 
         var c = gameCanvas.getContext('2d');
         c.fillStyle = "#f0f0f0";
         c.fillRect(0, 0, gameCanvas.clientWidth, gameCanvas.clientHeight);
 
-        let gameWorld = new GameWorld(gameCanvas);
+        let sprites = new Sprites('sprite-sheet.bmp');
+        let mazeGenerator = new MazeGenerator(10, 10)
+        let gameModel = new GameModel(mazeGenerator);
+        let gameWorld = new GameWorld(gameCanvas, sprites);
+        gameModel.registerListener(gameWorld);
     </script>
 </html>

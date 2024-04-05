@@ -1,20 +1,26 @@
 class GameWorld implements IGameModelListener {
-    canvas: Element;
+    private canvas: HTMLCanvasElement;
+    private sprites: Sprites;
+    private width: number;
+    private height: number;
+    private cellWidth: number;
+    private cellHeight: number;
 
-    constructor(gameCanvas: Element) {
+    constructor(gameCanvas: HTMLCanvasElement, sprites: Sprites) {
         this.canvas = gameCanvas;
+        this.sprites = sprites;
     }
 
     setMazeDimensions(width: number, height: number) {
-        
+        this.width = width;
+        this.height = height;
+        this.cellWidth = this.canvas.clientWidth / width;
+        this.cellHeight = this.canvas.clientHeight / height;
     }
 
-    public createHeroCharacter(): CharacterModel {
-        return null;
-    }
-    
     draw(character: CharacterModel) {
-        
+        let ctx = this.canvas.getContext('2d');
+        ctx.drawImage(this.sprites.getSprite(0), 50, 50)
     }
 
     turnRight() {
